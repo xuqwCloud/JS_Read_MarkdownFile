@@ -35,7 +35,6 @@ export default {
             this.fileData = dataConfig;
         },
         _renderFile(e) {
-            console.log(e.target.id);
             const urlStr = `/files/${e.target.id}.md`;
             axios.get(urlStr).then((res) => {
                 this.mdData = res.data;
