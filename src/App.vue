@@ -1,9 +1,13 @@
 <template>
     <div id="app">
         <div class="mdFileView">
-            <div v-for="(item, index) in fileData" :key="index" class="fileItem" @click="_renderFile" :id="item.name">
-                {{ item.name }}
-            </div>
+            <div
+                v-for="(item, index) in fileData"
+                :key="index"
+                class="fileItem"
+                @click="_renderFile"
+                :id="item.name"
+            >{{ item.name }}</div>
         </div>
         <div class="mdRenderView">
             <VueMarkdown replace="test" :source="mdData"></VueMarkdown>
@@ -20,9 +24,13 @@ export default {
     name: 'App',
     data() {
         return {
-            fileData: [],
-            mdData: null,
+            mdData: 'firstFile',
         };
+    },
+    computed: {
+        fileData() {
+            return dataConfig;
+        },
     },
     components: {
         VueMarkdown,
@@ -32,7 +40,10 @@ export default {
     },
     methods: {
         _getFileItemData() {
-            this.fileData = dataConfig;
+            const urlStr = `/files/测试文件1.md`;
+            axios.get(urlStr).then((res) => {
+                this.mdData = res.data;
+            });
         },
         _renderFile(e) {
             const urlStr = `/files/${e.target.id}.md`;
